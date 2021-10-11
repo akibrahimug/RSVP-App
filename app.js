@@ -1,53 +1,54 @@
 const form = document.getElementById('registrar');
-const input = form.querySelector('input');
-const ul = document.getElementById('invitedList');
+const list = document.getElementById('invitedList');
 
-function createLI(text) {
-  const li = document.createElement('li');
-  li.textContent = text;
+
+form.addEventListener('submit', e => {
+  // stop default refresh and sending 
+  e.preventDefault()
+  // creating list item
+  const listItem = document.createElement('li'); 
+  const input = document.querySelector('input').value;
+  listItem.textContent = input;
+
+  // confirmed
   const label = document.createElement('label');
-  label.textContent = 'Confirmed';
-  const checkbox = document.createElement('input');
+  label.textContent = 'Confirmed'
+  const checkbox = document.createElement('input')
   checkbox.type = 'checkbox';
   label.appendChild(checkbox);
-  li.appendChild(label);  
-  const button = document.createElement('button');
-  button.textContent = 'remove';
-  li.appendChild(button);
-  return li;
-}
+//  confirmed click handler
+  checkbox.addEventListener('change', e => {
+    const checked = checkbox.checked
+    if(checked){
+      listItem.className = 'responded'
+    }else{
+      listItem.className = ''
+    }
+  })
 
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const text = input.value;
-  input.value = '';
-  const li = createLI(text);
-  ul.appendChild(li);
-});
-  
-ul.addEventListener('change', (e) => {
-  const checkbox = event.target;
-  const checked = checkbox.checked;
-  const listItem = checkbox.parentNode.parentNode;
-  
-  if (checked) {
-    listItem.className = 'responded';
-  } else {
-    listItem.className = '';
-  }
-});
-  
-ul.addEventListener('click', (e) => {
-  if (e.target.tagName === 'BUTTON') {
-    const li = e.target.parentNode;
-    const ul = li.parentNode;
-    ul.removeChild(li);
-  }
-});  
-  
-  
-  
-  
+  // Remove button
+  const remove = document.createElement('button')
+  remove.textContent = 'Remove'
+  // remove click handler
+  remove.addEventListener('click', e => {
+    listItem.remove()
+  })
+  // Edit button
+  const edit = document.createElement('button')
+  edit.textContent = 'Edit'
+  // edit click handler
+  edit.addEventListener('click', e => {
+    const textarea = document.createElement('textarea');
+    console.log(textarea)
+  })
+  // appending items to their parents
+  listItem.appendChild(label)
+  listItem.appendChild(edit)
+  listItem.appendChild(remove);
+  list.appendChild(listItem);
+})
+
+
   
   
   
