@@ -1,15 +1,13 @@
 const form = document.getElementById('registrar');
 const list = document.getElementById('invitedList');
-
-
 form.addEventListener('submit', e => {
   // stop default refresh and sending 
   e.preventDefault()
   // creating list item
   const listItem = document.createElement('li'); 
+  const span = document.createElement('span');
   const input = document.querySelector('input').value;
-  listItem.textContent = input;
-
+  span.textContent = input;
   // confirmed
   const label = document.createElement('label');
   label.textContent = 'Confirmed'
@@ -25,7 +23,6 @@ form.addEventListener('submit', e => {
       listItem.className = ''
     }
   })
-
   // Remove button
   const remove = document.createElement('button')
   remove.textContent = 'Remove'
@@ -38,10 +35,26 @@ form.addEventListener('submit', e => {
   edit.textContent = 'Edit'
   // edit click handler
   edit.addEventListener('click', e => {
-    const textarea = document.createElement('textarea');
-    console.log(textarea)
+    const textField = document.createElement('input');
+    textField.type = 'text'
+    
+    if(e.target.textContent === 'Edit'){
+      const span = listItem.firstElementChild
+    textField.value = span.textContent;
+    listItem.insertBefore(textField, span);
+    listItem.removeChild(span)
+    // save button
+    edit.textContent = 'Save'
+    }else if(e.target.textContent === 'Save'){
+     const textField = listItem.firstElementChild;
+     span.textContent = textField.value;
+     listItem.insertBefore(span, textField);
+     listItem.removeChild(textField)
+     edit.textContent = 'Edit'
+    }
   })
   // appending items to their parents
+  listItem.appendChild(span)
   listItem.appendChild(label)
   listItem.appendChild(edit)
   listItem.appendChild(remove);
